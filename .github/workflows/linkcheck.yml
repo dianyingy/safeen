@@ -34,3 +34,19 @@ jobs:
       - name: Analyzing the docs with linkcheck
         run: |
           make docs_linkcheck
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: |
+          pipx install poetry==$POETRY_VERSION
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Analysing the code with our lint
+        run: |
+          make lint
